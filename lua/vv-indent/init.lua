@@ -5,25 +5,25 @@
 -- 当前作用域的竖线颜色按深度循环，其余竖线用灰色。
 
 ---@class VVIndentColors
----@field indent string            非作用域缩进线颜色
----@field scope string[]           作用域按深度循环使用的颜色列表
+---@field indent string            非作用域缩进线颜色 @default '#3B4048'
+---@field scope string[]           作用域按深度循环使用的颜色列表 @default { '#E06C75', '#E5C07B', '#61AFEF', '#D19A66', '#98C379', '#C678DD', '#56B6C2' }
 
 ---@class VVIndentStyle
----@field scope 'dashed'|'solid'   当前作用域竖线风格
----@field indent 'dashed'|'solid'  非作用域缩进线风格
+---@field scope 'dashed'|'solid'   当前作用域竖线风格 @default 'solid'
+---@field indent 'dashed'|'solid'  非作用域缩进线风格 @default 'dashed'
 
 ---@class VVIndentChar
----@field scope string|nil         作用域竖线自定义字符，优先级高于 style.scope
----@field indent string|nil        非作用域缩进线自定义字符，优先级高于 style.indent
+---@field scope string|nil         作用域竖线自定义字符，优先级高于 style.scope @default nil
+---@field indent string|nil        非作用域缩进线自定义字符，优先级高于 style.indent @default nil
 
 ---@class VVIndentConfig
----@field enabled boolean
+---@field enabled boolean @default true
 ---@field style VVIndentStyle
 ---@field char VVIndentChar
----@field priority integer         普通缩进线的 extmark 优先级
----@field scope_priority integer   作用域线的 extmark 优先级（需高于普通）
----@field exclude_ft string[]      按 filetype 关闭
----@field exclude_bt string[]      按 buftype 关闭
+---@field priority integer         普通缩进线的 extmark 优先级 @default 1
+---@field scope_priority integer   作用域线的 extmark 优先级（需高于普通） @default 200
+---@field exclude_ft string[]      按 filetype 关闭 @default { 'help', 'dashboard', 'neo-tree', 'Trouble', 'lazy', 'mason', ... }
+---@field exclude_bt string[]      按 buftype 关闭 @default { 'nofile', 'terminal', 'prompt', 'quickfix' }
 ---@field colors VVIndentColors
 
 local M = {}
@@ -81,14 +81,28 @@ function M.setup(opts)
   if config.enabled then
     require('vv-indent.render').enable()
   end
+
+  vim.api.nvim_create_user_command('VVIndentEnable', function() M.enable() end, {})
+  vim.api.nvim_create_user_command('VVIndentDisable', function() M.disable() end, {})
+  vim.api.nvim_create_user_command('VVIndentToggle', function() M.toggle() end, {})
 end
 
 function M.enable()
+  config.enabled = true
   require('vv-indent.render').enable()
 end
 
 function M.disable()
+  config.enabled = false
   require('vv-indent.render').disable()
+end
+
+function M.toggle()
+  if config.enabled then
+    M.disable()
+  else
+    M.enable()
+  end
 end
 
 ---@return VVIndentConfig
