@@ -16,6 +16,13 @@
 ---@field scope string|nil         作用域竖线自定义字符，优先级高于 style.scope @default nil
 ---@field indent string|nil        非作用域缩进线自定义字符，优先级高于 style.indent @default nil
 
+---@class VVIndentAnimate
+---@field enabled boolean          是否启用 scope 展开动画 @default true
+---@field step_ms number           每步间隔（ms） @default 20
+---@field total_ms number          最大动画时长（ms） @default 500
+---@field style 'out'|'down'|'up'  展开方向：out=从光标向两端，down=从顶向下，up=从底向上 @default 'out'
+---@field easing string            缓动函数名 @default 'linear'
+
 ---@class VVIndentConfig
 ---@field enabled boolean @default true
 ---@field style VVIndentStyle
@@ -25,6 +32,7 @@
 ---@field exclude_ft string[]      按 filetype 关闭 @default { 'help', 'dashboard', 'neo-tree', 'Trouble', 'lazy', 'mason', ... }
 ---@field exclude_bt string[]      按 buftype 关闭 @default { 'nofile', 'terminal', 'prompt', 'quickfix' }
 ---@field colors VVIndentColors
+---@field animate VVIndentAnimate
 
 local M = {}
 
@@ -48,6 +56,13 @@ local default_config = {
     'notify', 'toggleterm', 'lazyterm', 'gitcommit', 'man',
   },
   exclude_bt = { 'nofile', 'terminal', 'prompt', 'quickfix' },
+  animate = {
+    enabled = true,
+    step_ms = 20,
+    total_ms = 500,
+    style = 'out',
+    easing = 'linear',
+  },
   colors = {
     indent = '#3B4048',
     scope = {

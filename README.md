@@ -42,6 +42,13 @@ vv-indent 基于**缩进级别**检测作用域，光标一移动颜色就跟着
       'notify', 'toggleterm', 'lazyterm', 'gitcommit', 'man',
     },
     exclude_bt = { 'nofile', 'terminal', 'prompt', 'quickfix' },
+    animate = {
+      enabled = true,      -- 是否启用 scope 展开动画
+      step_ms = 20,        -- 每步间隔（ms）
+      total_ms = 500,      -- 最大动画时长（ms）
+      style = 'out',       -- 展开方向：'out' | 'down' | 'up'
+      easing = 'linear',   -- 缓动函数：linear / outQuad / outCubic / inQuad / inOutQuad
+    },
     colors = {
       indent = '#3B4048',  -- 非作用域缩进线颜色
       scope = {            -- 作用域按深度循环的彩虹色
@@ -66,5 +73,10 @@ vv-indent 基于**缩进级别**检测作用域，光标一移动颜色就跟着
 | `scope_priority` | `integer` | `200` | 作用域 extmark 优先级 |
 | `exclude_ft` | `string[]` | `{ 'help', 'dashboard', ... }` | 排除的 filetype |
 | `exclude_bt` | `string[]` | `{ 'nofile', 'terminal', ... }` | 排除的 buftype |
+| `animate.enabled` | `boolean` | `true` | 是否启用 scope 展开动画 |
+| `animate.step_ms` | `number` | `20` | 每步间隔（ms） |
+| `animate.total_ms` | `number` | `500` | 最大动画时长（ms） |
+| `animate.style` | `'out' \| 'down' \| 'up'` | `'out'` | 展开方向（out=从光标向两端） |
+| `animate.easing` | `string` | `'linear'` | 缓动函数（linear / outQuad / outCubic / inQuad / inOutQuad） |
 | `colors.indent` | `string` | `'#3B4048'` | 非作用域缩进线颜色 |
 | `colors.scope` | `string[]` | *7 色彩虹* | 作用域按深度循环的颜色列表 |
