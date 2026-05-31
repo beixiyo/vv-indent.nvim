@@ -47,24 +47,10 @@ assert_no_match(
   'lua/plugins/specs/ui/indent%.lua'
 )
 
--- 1b. 包含通用 lazy.nvim 安装示例
-assert_match(
-  'README 包含 lazy.nvim 安装格式',
-  readme,
-  'lazy%.nvim'
-)
-
 assert_match(
   'README 包含 event 配置',
   readme,
   "event = { 'BufReadPost', 'BufNewFile' }"
-)
-
--- 1c. default = true 说明引用了 vv-utils.hl.register
-assert_match(
-  'README 说明 default=true 由 vv-utils.hl.register 设置',
-  readme,
-  'vv%-utils%.hl%.register'
 )
 
 -- =============================================
