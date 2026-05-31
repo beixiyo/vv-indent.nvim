@@ -217,6 +217,8 @@ function M.enable()
         last_row[winid] = nil
         clear_anim(winid)
         prev_scope[winid] = nil
+        -- win_state 同样按 winid 持有，须一并清理，否则关窗后陈旧条目永不回收（内存泄漏）
+        win_state[winid] = nil
       end
     end,
   })
