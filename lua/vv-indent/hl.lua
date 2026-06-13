@@ -25,6 +25,7 @@ end
 ---@param count integer  颜色列表长度
 ---@return string
 function M.scope_hl(level, count)
+  if count <= 0 then return M.INDENT end
   local idx = ((level - 1) % count) + 1
   return M.SCOPE_PREFIX .. idx
 end

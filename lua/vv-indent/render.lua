@@ -32,6 +32,7 @@ local win_state = {}
 ---@field from integer  当前动画可见的起始行（1-based）
 ---@field to integer    当前动画可见的结束行（1-based）
 ---@field scope VVIndentScope  动画目标 scope
+---@field origin integer  out 动画的展开中心行（1-based），同 scope 内移动时实时刷新
 
 ---@type table<integer, VVIndentAnim|nil>
 local win_anim = {}
@@ -96,7 +97,7 @@ local function start_anim(winid, scope)
   local id = 'vv_indent_' .. winid
   animate.del(id)
 
-  win_anim[winid] = { from = cursor_line, to = cursor_line, scope = scope }
+  win_anim[winid] = { from = cursor_line, to = cursor_line, scope = scope, origin = cursor_line }
 
   animate.add(0, size, function(value, ctx)
     if not vim.api.nvim_win_is_valid(winid) then
@@ -114,7 +115,7 @@ local function start_anim(winid, scope)
       return
     end
 
-    local line = math.min(math.max(scope.from, cursor_line), scope.to)
+    local line = math.min(math.max(scope.from, anim.origin or cursor_line), scope.to)
     local style = anim_cfg.style
 
     if style == 'out' then
@@ -172,6 +173,12 @@ local function on_scope_change(winid, scope)
   end
 
   if prev and prev.from == scope.from and prev.to == scope.to and prev.level == scope.level then
+    -- 同 scope 内移动光标：不重启动画，但刷新 out 动画的展开中心，使其向新光标位置扩散
+    local a = win_anim[winid]
+    if a then
+      local ok, c = pcall(vim.api.nvim_win_get_cursor, winid)
+      if ok then a.origin = c[1] end
+    end
     return
   end
 
