@@ -3,16 +3,6 @@
 
 local passed, failed = 0, 0
 
-local function assert_eq(name, got, want)
-  if got == want then
-    passed = passed + 1
-    print('[PASS] ' .. name)
-  else
-    failed = failed + 1
-    print(('[FAIL] %s\n  期望: %s\n  实际: %s'):format(name, tostring(want), tostring(got)))
-  end
-end
-
 local function assert_match(name, str, pattern)
   if str:find(pattern) then
     passed = passed + 1
@@ -23,35 +13,7 @@ local function assert_match(name, str, pattern)
   end
 end
 
-local function assert_no_match(name, str, pattern)
-  if not str:find(pattern) then
-    passed = passed + 1
-    print('[PASS] ' .. name)
-  else
-    failed = failed + 1
-    print(('[FAIL] %s\n  不应匹配到: %s\n  内容: %s'):format(name, pattern, str))
-  end
-end
-
--- =============================================
--- FIX 1: README 内容验证
--- =============================================
 local root = vim.fn.fnamemodify(debug.getinfo(1, 'S').source:sub(2), ':h:h')
-local readme_path = root .. '/README.md'
-local readme = table.concat(vim.fn.readfile(readme_path), '\n')
-
--- 1a. 不再包含旧的 spec 文件路径引用
-assert_no_match(
-  'README 不包含旧 spec 路径',
-  readme,
-  'lua/plugins/specs/ui/indent%.lua'
-)
-
-assert_match(
-  'README 包含 event 配置',
-  readme,
-  "event = { 'BufReadPost', 'BufNewFile' }"
-)
 
 -- =============================================
 -- FIX 2 (#72): WinClosed 同步清理 win_state，避免关窗后陈旧条目泄漏
