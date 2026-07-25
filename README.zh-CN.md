@@ -1,7 +1,7 @@
 <div align="center">
   <h1>vv-indent.nvim</h1>
   <p><a href="./README.md">English</a> | 中文</p>
-  <img src="./docs/assets/vv-indent.png" alt="vv-indent 演示" width="900" />
+  <img src="https://github.com/beixiyo/vv-indent.nvim/releases/download/assets-2026-07-25/vv-indent.png" alt="vv-indent 演示" width="900" />
   <p>想要我的 Neovim 配置？查看 <a href="https://github.com/beixiyo/dotfiles">dotfiles</a></p>
   <em>轻量级缩进参考线 — 当前作用域彩虹色、光标移动实时更新</em>
   <p>

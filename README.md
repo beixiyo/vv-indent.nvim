@@ -1,7 +1,7 @@
 <div align="center">
   <h1>vv-indent.nvim</h1>
   <p>English | <a href="./README.zh-CN.md">中文</a></p>
-  <img src="./docs/assets/vv-indent.png" alt="vv-indent demo" width="900" />
+  <img src="https://github.com/beixiyo/vv-indent.nvim/releases/download/assets-2026-07-25/vv-indent.png" alt="vv-indent demo" width="900" />
   <p>Want my Neovim config? See <a href="https://github.com/beixiyo/dotfiles">dotfiles</a></p>
   <em>Lightweight indent guides with rainbow-colored active scopes that update as the cursor moves</em>
   <p>
