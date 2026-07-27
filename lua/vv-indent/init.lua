@@ -3,42 +3,13 @@
 -- ================================
 -- 基于缩进层级的作用域检测（而非 treesitter），光标上下移动时
 -- 当前作用域的竖线颜色按深度循环，其余竖线用灰色。
-
----@class VVIndentColors
----@field indent string            非作用域缩进线颜色 @default '#3B4048'
----@field scope string[]           作用域按深度循环使用的颜色列表 @default { '#E06C75', '#E5C07B', '#61AFEF', '#D19A66', '#98C379', '#C678DD', '#56B6C2' }
-
----@class VVIndentStyle
----@field scope 'dashed'|'solid'   当前作用域竖线风格 @default 'solid'
----@field indent 'dashed'|'solid'  非作用域缩进线风格 @default 'dashed'
-
----@class VVIndentChar
----@field scope string|nil         作用域竖线自定义字符，优先级高于 style.scope @default nil
----@field indent string|nil        非作用域缩进线自定义字符，优先级高于 style.indent @default nil
-
----@class VVIndentAnimate
----@field enabled boolean          是否启用 scope 展开动画 @default true
----@field step_ms number           每步间隔（ms） @default 20
----@field total_ms number          最大动画时长（ms） @default 500
----@field style 'out'|'down'|'up'  展开方向：out=从光标向两端，down=从顶向下，up=从底向上 @default 'out'
----@field easing string            缓动函数名 @default 'linear'
-
----@class VVIndentConfig
----@field enabled boolean @default true
----@field style VVIndentStyle
----@field char VVIndentChar
----@field priority integer         普通缩进线的 extmark 优先级 @default 1
----@field scope_priority integer   作用域线的 extmark 优先级（需高于普通） @default 200
----@field exclude_ft string[]      按 filetype 关闭 @default { 'help', 'dashboard', 'neo-tree', 'Trouble', 'lazy', 'mason', ... }
----@field exclude_bt string[]      按 buftype 关闭 @default { 'nofile', 'terminal', 'prompt', 'quickfix' }
----@field colors VVIndentColors
----@field animate VVIndentAnimate
+require('vv-indent.types')
 
 local M = {}
 
 local STYLE_CHARS = { dashed = '┆', solid = '│' }
 
----@type VVIndentConfig
+---@type VVIndent.Config
 local default_config = {
   enabled = true,
   style = {
@@ -77,10 +48,10 @@ local default_config = {
   },
 }
 
----@type VVIndentConfig
+---@type VVIndent.Config
 local config
 
----@param opts VVIndentConfig|nil
+---@param opts VVIndent.Config|nil
 function M.setup(opts)
   opts = opts or {}
   config = vim.tbl_deep_extend('force', default_config, opts)
@@ -120,7 +91,7 @@ function M.toggle()
   end
 end
 
----@return VVIndentConfig
+---@return VVIndent.Config
 function M.get_config()
   return vim.deepcopy(config)
 end

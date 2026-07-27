@@ -14,7 +14,7 @@ local ns = vim.api.nvim_create_namespace('vv-indent')
 local augroup = vim.api.nvim_create_augroup('vv-indent.render', { clear = true })
 local enabled = false
 
----@type VVIndentConfig
+---@type VVIndent.Config
 local config
 
 ---@type table<integer, integer> 每个 window 上次光标所在行，用于换行时才刷新
@@ -32,7 +32,7 @@ local win_state = {}
 ---@field from integer  当前动画可见的起始行（1-based）
 ---@field to integer    当前动画可见的结束行（1-based）
 ---@field scope VVIndentScope  动画目标 scope
----@field origin integer  out 动画的展开中心行（1-based），同 scope 内移动时实时刷新
+---@field origin? integer  out 动画的展开中心行（1-based），同 scope 内移动时实时刷新
 
 ---@type table<integer, VVIndentAnim|nil>
 local win_anim = {}
@@ -185,7 +185,7 @@ local function on_scope_change(winid, scope)
   start_anim(winid, scope)
 end
 
----@param config_ VVIndentConfig
+---@param config_ VVIndent.Config
 function M.setup(config_)
   config = config_
 end

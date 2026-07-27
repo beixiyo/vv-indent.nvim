@@ -1,0 +1,26 @@
+---@class VVIndent.Colors
+---@field indent string
+---@field scope string[]
+---@class VVIndent.Style
+---@field scope 'dashed'|'solid'
+---@field indent 'dashed'|'solid'
+---@class VVIndent.Char
+---@field scope string|nil
+---@field indent string|nil
+---@class VVIndent.Animate
+---@field enabled boolean
+---@field step_ms number
+---@field total_ms number
+---@field style 'out'|'down'|'up'
+---@field easing string
+---@class VVIndent.Config
+---@field enabled boolean
+---@field style VVIndent.Style
+---@field char VVIndent.Char
+---@field priority integer
+---@field scope_priority integer
+---@field exclude_ft string[]
+---@field exclude_bt string[]
+---@field colors VVIndent.Colors
+---@field animate VVIndent.Animate
+return {}

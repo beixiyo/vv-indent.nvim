@@ -9,7 +9,7 @@ local M = {}
 M.INDENT = 'VVIndent'
 M.SCOPE_PREFIX = 'VVIndentScope'
 
----@param config VVIndentConfig
+---@param config VVIndent.Config
 function M.setup(config)
   local specs = {
     [M.INDENT] = { fg = config.colors.indent, nocombine = true },
