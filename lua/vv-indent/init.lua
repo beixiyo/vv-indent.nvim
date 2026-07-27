@@ -51,7 +51,7 @@ local default_config = {
 ---@type VVIndent.Config
 local config
 
----@param opts VVIndent.Config|nil
+---@param opts? VVIndent.ConfigOptions
 function M.setup(opts)
   opts = opts or {}
   config = vim.tbl_deep_extend('force', default_config, opts)
