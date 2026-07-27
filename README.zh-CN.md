@@ -25,7 +25,7 @@ vv-indent 基于**缩进级别**检测作用域，光标一移动颜色就跟着
   'beixiyo/vv-indent.nvim',
   dependencies = { 'beixiyo/vv-utils.nvim' },
   event = { 'BufReadPost', 'BufNewFile' },
-  ---@type VVIndentConfig
+  ---@type VVIndent.Config
   opts = {
     enabled = true,
     style = {

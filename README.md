@@ -25,7 +25,7 @@ vv-indent detects scopes by **indentation level**, so the active color follows e
   'beixiyo/vv-indent.nvim',
   dependencies = { 'beixiyo/vv-utils.nvim' },
   event = { 'BufReadPost', 'BufNewFile' },
-  ---@type VVIndentConfig
+  ---@type VVIndent.Config
   opts = {
     enabled = true,
     style = {
