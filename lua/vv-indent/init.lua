@@ -2,7 +2,7 @@
 -- vv-indent.nvim - 缩进参考线 + 光标作用域彩虹高亮
 -- ================================
 -- 基于缩进层级的作用域检测（而非 treesitter），光标上下移动时
--- 当前作用域的竖线颜色按深度循环，其余竖线用灰色。
+-- 当前作用域的竖线颜色按深度循环，其余竖线用灰色
 require('vv-indent.types')
 
 local M = {}
@@ -54,6 +54,11 @@ local config
 ---@param opts? VVIndent.ConfigOptions
 function M.setup(opts)
   opts = opts or {}
+
+  -- setup 是可重复调用的公共边界。必须先用旧实例停止 renderer，
+  -- 再替换 config，避免旧 autocmd/provider/动画跨配置存活
+  require('vv-indent.render').disable()
+
   config = vim.tbl_deep_extend('force', default_config, opts)
   local user_char = opts.char or {}
   if user_char.scope == nil then
@@ -68,9 +73,9 @@ function M.setup(opts)
     require('vv-indent.render').enable()
   end
 
-  vim.api.nvim_create_user_command('VVIndentEnable', function() M.enable() end, {})
-  vim.api.nvim_create_user_command('VVIndentDisable', function() M.disable() end, {})
-  vim.api.nvim_create_user_command('VVIndentToggle', function() M.toggle() end, {})
+  vim.api.nvim_create_user_command('VVIndentEnable', function() M.enable() end, { force = true })
+  vim.api.nvim_create_user_command('VVIndentDisable', function() M.disable() end, { force = true })
+  vim.api.nvim_create_user_command('VVIndentToggle', function() M.toggle() end, { force = true })
 end
 
 function M.enable()
