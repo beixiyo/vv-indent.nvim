@@ -1,4 +1,4 @@
--- Lifecycle regression: repeated setup owns one renderer and fully releases it.
+-- 生命周期回归：重复 setup 只应拥有一个渲染器并完全释放
 
 local failures = {}
 
@@ -46,44 +46,44 @@ vim.api.nvim_buf_set_lines(0, 0, -1, false, {
 
 indent.setup({ enabled = true })
 check(#vim.api.nvim_get_autocmds({ group = 'vv-indent.render' }) == 3,
-  'enabled renderer should own exactly three autocmds')
+  '启用渲染器时应恰好拥有三个 autocmd')
 check(type(latest_provider.on_win) == 'function' and type(latest_provider.on_line) == 'function',
-  'enabled renderer should install the decoration provider')
+  '启用渲染器时应安装 decoration provider')
 
 vim.api.nvim_win_set_cursor(0, { 2, 0 })
 vim.api.nvim_exec_autocmds('CursorMoved', { modeline = false })
-check(animate_adds == 1, 'cursor scope change should start one animation')
+check(animate_adds == 1, '光标范围变更应启动一次动画')
 
 indent.setup({ enabled = false })
 check(#vim.api.nvim_get_autocmds({ group = 'vv-indent.render' }) == 0,
-  'setup enabled=false should remove renderer autocmds')
-check(next(latest_provider) == nil, 'setup enabled=false should clear the decoration provider')
+  'setup enabled=false 时应移除渲染器的 autocmd')
+check(next(latest_provider) == nil, 'setup enabled=false 时应清空 decoration provider')
 check((animate_deletes['vv_indent_' .. vim.api.nvim_get_current_win()] or 0) > 0,
-  'setup enabled=false should stop the active window animation')
+  'setup enabled=false 时应停止当前窗口的动画')
 
 indent.setup({
   enabled = true,
   char = { scope = '!' },
   animate = { enabled = false },
 })
-check(indent.get_config().char.scope == '!', 're-enabled renderer should use the new config')
+check(indent.get_config().char.scope == '!', '重新启用后应使用新配置')
 check(#vim.api.nvim_get_autocmds({ group = 'vv-indent.render' }) == 3,
-  're-enabled renderer should still own exactly three autocmds')
+  '重新启用后渲染器仍应恰好拥有三个 autocmd')
 
 indent.setup({
   enabled = true,
   style = { scope = 'dashed' },
   animate = { enabled = false },
 })
-check(indent.get_config().char.scope == '┆', 'later setup should not retain an old custom character')
+check(indent.get_config().char.scope == '┆', '后续 setup 不应保留旧的自定义字符')
 check(#vim.api.nvim_get_autocmds({ group = 'vv-indent.render' }) == 3,
-  'repeated enabled setup should not duplicate autocmds')
+  '重复启用的 setup 不应重复创建 autocmd')
 
 indent.disable()
 mock_api.nvim_set_decoration_provider = original_provider
 
 if #failures > 0 then
-  error('vv-indent lifecycle failures:\n- ' .. table.concat(failures, '\n- '))
+  error('vv-indent 生命周期校验失败：\n- ' .. table.concat(failures, '\n- '))
 end
 
-print('vv-indent lifecycle: passed')
+print('vv-indent 生命周期测试通过')

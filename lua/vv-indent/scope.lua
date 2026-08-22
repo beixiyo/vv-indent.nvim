@@ -85,8 +85,6 @@ function M.find(bufnr, cursor_row)
   }
 end
 
----@param bufnr integer
----@return integer
 M.get_shiftwidth = get_shiftwidth
 
 return M
