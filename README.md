@@ -16,7 +16,7 @@
 
 `indent-blankline.nvim` detects scopes with treesitter, treating an entire function or block as one scope. Its color therefore remains unchanged while the cursor moves through the function body.
 
-vv-indent detects scopes by **indentation level**, so the active color follows every cursor movement for an experience closer to VS Code. It has no external dependencies and renders on demand with `nvim_set_decoration_provider`, keeping memory usage constant.
+vv-indent detects scopes by **indentation level**, so the active color follows every cursor movement for an experience closer to VS Code. It requires [vv-utils.nvim](https://github.com/beixiyo/vv-utils.nvim) for animation and highlights, needs no treesitter parser and renders on demand with `nvim_set_decoration_provider`, keeping memory usage constant.
 
 ## Installation
 
@@ -85,24 +85,11 @@ vv-indent detects scopes by **indentation level**, so the active color follows e
 ## Development tests
 
 ```sh
-./tests/run.sh
-./tests/run.sh 'FILTER'
-# Optional Neovim override
-NVIM_BIN=/path/to/nvim ./tests/run.sh
+./tests/run.sh [literal-filter]
 ```
 
-Unix-like systems only; requires Neovim 0.12+ (0.12 stable recommended), Git and POSIX shell.
-`./tests/run.sh` prepares pinned vv-utils (`ed9b6ae`) and mini.test sources on first use;
-no sibling checkout, personal Neovim configuration or parser installation is required.
-Dependencies are cached under `VV_TEST_DEPS_CACHE` (default: `$XDG_CACHE_HOME/nvim-test-deps`
-or `~/.cache/nvim-test-deps`); later runs work offline with a populated cache.
-`VV_UTILS` optionally overrides the shared source checkout; `NVIM_BIN` defaults to `nvim`.
-The optional filter matches a literal substring of the file path or Chinese case name;
-no matches fails. The entrypoint does not install system tools.
+Requires Unix-like OS, Neovim 0.12+, Git, POSIX shell and an existing vv-utils.nvim source checkout containing `dev/test/`. The entry discovers development or installed sources; override with `VV_UTILS` or select Neovim with `NVIM_BIN`. It neither loads personal configuration nor downloads vv plugins.
 
-Each named case starts a fresh child Neovim without personal configuration, with cwd, HOME,
-XDG directories and temporary fixtures under an independent `/tmp` directory. Parent hooks stop the
-child and remove fixtures even after assertion failures; scheduled callback errors are asserted separately.
-Headless state checks do not replace visual or mouse validation in a real terminal.
+The suite exercises cursor/autocmd lifecycle with animation and decoration-provider mocks; no parsers are required.
 
-The lifecycle case drives real cursor/autocmd updates while observing animation and decoration-provider ownership through mocks.
+Filtering is literal; no matches exits nonzero. Discovery, mini.test preparation and isolation are documented in the [shared test guide](https://github.com/beixiyo/vv-utils.nvim/blob/main/dev/test/README.md).
